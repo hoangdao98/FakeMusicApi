@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('/albums', 'AlbumController');
+
+Route::group(['prefix'=>'albums'], function(){
+	Route::apiResource('/{album}/audios', 'AudioController');
+});
