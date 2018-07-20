@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Audio;
+use App\Model\Album;
 use Illuminate\Http\Request;
 
 class AudioController extends Controller
@@ -12,9 +13,9 @@ class AudioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Album $album)
     {
-        //
+        return $album->audios;
     }
 
     /**

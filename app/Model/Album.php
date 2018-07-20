@@ -9,7 +9,7 @@ class Album extends Model
 {
 	Protected $table = "albums";
 
-    public function audio(){
+    public function audios(){
     	return $this->hasMany(Audio::class);
     }
 }
