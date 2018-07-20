@@ -6,10 +6,18 @@ namespace App\Http\Controllers;
 use App\Model\Album;
 use App\Http\Resources\Album\AlbumResource;
 use App\Http\Resources\Album\AlbumCollection;
+use App\Http\Requests\AlbumRequest;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class AlbumController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except('index','show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,9 +44,18 @@ class AlbumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AlbumRequest $request)
     {
-        //
+        $album = new Album;
+        $album->name = $request->name;
+        $album->description = $request->description;
+        $album->image = $request->image;
+        $album->year = $request->year;
+        $album->save();
+        return response([
+            'data' => new AlbumResource($album)
+        ],Response::HTTP_CREATED);
+        return $request->all();
     }
 
     /**
@@ -70,9 +87,9 @@ class AlbumController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Album $album)
     {
-        //
+        $album->update($request->all());
     }
 
     /**
