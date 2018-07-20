@@ -20,5 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResource('/albums', 'AlbumController');
 
 Route::group(['prefix'=>'albums'], function(){
-	Route::apiResource('/{album}/audios', 'AudioController');
+	Route::apiResource('/{album}/audio', 'AudioController');
 });
