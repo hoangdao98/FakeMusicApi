@@ -19,7 +19,10 @@ class AlbumResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'image' => $this->image,
+            'image' => $this->image == 0 ? 'Out of Image' : $this->image,
+            'href' => [
+                'audios' => route('audio.index', $this->id),
+            ],
         ];
     }
 }
