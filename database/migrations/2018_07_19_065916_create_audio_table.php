@@ -15,7 +15,7 @@ class CreateAudioTable extends Migration
     {
         Schema::create('audio', function (Blueprint $table) {
             $table->increments('id')->unsigned()->index();
-            $table->integer('album_id');
+            $table->integer('album_id')->references('id')->onDelete('cascade');
             $table->string('name');
             $table->string('compose');
             $table->string('singer');
