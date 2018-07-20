@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Album;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\Resource;
 
-class AlbumCollection extends ResourceCollection
+class AlbumCollection extends Resource
 {
     /**
      * Transform the resource collection into an array.
@@ -14,6 +14,15 @@ class AlbumCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'image' => $this->image == 0 ? 'Out of Image' : $this->image,
+            'href' => [
+                'audios' => route('albums.show', $this->id),
+            ],
+        ];
+
     }
 }
