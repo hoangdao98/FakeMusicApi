@@ -90,6 +90,9 @@ class AlbumController extends Controller
     public function update(Request $request, Album $album)
     {
         $album->update($request->all());
+        return response([
+            'data' => new AlbumResource($album)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -98,8 +101,9 @@ class AlbumController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Album $album)
     {
-        //
+        $album->delete();
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }
