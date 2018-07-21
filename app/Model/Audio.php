@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Model\Album;
 use Illuminate\Database\Eloquent\Model;
 
 class Audio extends Model
