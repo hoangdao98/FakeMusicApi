@@ -19,6 +19,7 @@ class CreateAlbumsTable extends Migration
             $table->string('year');
             $table->text('image');
             $table->text('description');
+            $table->integer('user_id')->unsigned()->index();
             $table->timestamps();
         });
     }

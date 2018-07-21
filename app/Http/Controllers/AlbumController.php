@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 
 use App\Model\Album;
+use App\Exceptions\AlbumNotBelongsToUser;
 use App\Http\Resources\Album\AlbumResource;
 use App\Http\Resources\Album\AlbumCollection;
 use App\Http\Requests\AlbumRequest;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Auth;
 
 
 class AlbumController extends Controller
@@ -89,6 +91,7 @@ class AlbumController extends Controller
      */
     public function update(Request $request, Album $album)
     {
+        $this->AlbumUserCheck($album);
         $album->update($request->all());
         return response([
             'data' => new AlbumResource($album)
@@ -103,7 +106,14 @@ class AlbumController extends Controller
      */
     public function destroy(Album $album)
     {
+        $this->AlbumUserCheck($album);
         $album->delete();
         return response(null,Response::HTTP_NO_CONTENT);
+    }
+
+    public function AlbumUserCheck($album){
+        if(Auth::id() !== $album->user_id){
+            throw new AlbumNotBelongsToUser;
+        }
     }
 }

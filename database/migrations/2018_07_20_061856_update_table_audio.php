@@ -25,8 +25,8 @@ class UpdateTableAudio extends Migration
      */
     public function down()
     {
-        Schema::table('audio', function (Blueprint $table) {
-            $table->integer('album_id')->references('id')->onDelete('cascade');
-        });
+        // Schema::table('audio', function (Blueprint $table) {
+        //     $table->integer('album_id')
+        // });
     }
 }

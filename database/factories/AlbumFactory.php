@@ -7,6 +7,9 @@ $factory->define(App\Model\Album::class, function (Faker $faker) {
         'name' => $faker->word,
         'description' => $faker->paragraph,
         'year' => $faker->year($max = 'now'),
-        'image' => $faker->text
+        'image' => $faker->text,
+        'user_id' => function(){
+        	return App\User::all()->random();
+        },
     ];
 });
