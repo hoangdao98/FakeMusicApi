@@ -18,6 +18,7 @@ class AlbumResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'singer' => $this->singer,
             'description' => $this->description,
             'image' => $this->image == 0 ? 'Out of Image' : $this->image,
             'href' => [

@@ -27,7 +27,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return AlbumCollection::collection(Album::all());
+        return AlbumCollection::collection(Album::paginate(10));
     }
 
     /**
@@ -46,13 +46,15 @@ class AlbumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AlbumRequest $request)
+    public function store(AlbumRequest $request, Album $album)
     {
         $album = new Album;
         $album->name = $request->name;
         $album->description = $request->description;
-        $album->image = $request->image;
+        $album->singer = $request->singer;
+        $album->image = "";
         $album->year = $request->year;
+        $album->user_id = $request->user_id;
         $album->save();
         return response([
             'data' => new AlbumResource($album)
