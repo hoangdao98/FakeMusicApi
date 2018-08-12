@@ -27,7 +27,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return AlbumCollection::collection(Album::paginate(10));
+        return AlbumCollection::collection(Album::orderBy('id', 'desc')->paginate(10));
     }
 
     /**
@@ -52,10 +52,21 @@ class AlbumController extends Controller
         $album->name = $request->name;
         $album->description = $request->description;
         $album->singer = $request->singer;
-        $album->image = "";
         $album->year = $request->year;
         $album->user_id = $request->user_id;
+        if($request->has("image")){
+            $files = $request->image;
+            $fileData = explode(',', $files);
+            if(preg_match('/(?<=\/)[^;]*/', $fileData[0], $fileExtension)){
+                $fileName = str_slug(uniqid() . microtime()) . "." . $fileExtension[0];
+                $path = public_path('upload/' . $fileName);
+                $data = base64_decode($fileData[1]);
+                file_put_contents( $path, $data );
+                $album->image = $fileName;
+            }
+        }
         $album->save();
+        return response()->json($album);
         return response([
             'data' => new AlbumResource($album)
         ],Response::HTTP_CREATED);
@@ -94,7 +105,19 @@ class AlbumController extends Controller
     public function update(Request $request, Album $album)
     {
         $this->AlbumUserCheck($album);
-        $album->update($request->all());
+        $requestData = $request->all();
+        if($request->has('newImage')){
+            $files = $request->newImage;
+            $fileData = explode(',', $files);
+            if(preg_match('/(?<=\/)[^;]*/', $fileData[0], $fileExtension)){
+                $fileName = str_slug(uniqid() . microtime()) . "." . $fileExtension[0];
+                $path = public_path('upload/' . $fileName);
+                $data = base64_decode($fileData[1]);
+                file_put_contents( $path, $data );
+                $requestData['image'] = $fileName;
+            }
+        }
+        $album->update($requestData);
         return response([
             'data' => new AlbumResource($album)
         ],Response::HTTP_CREATED);

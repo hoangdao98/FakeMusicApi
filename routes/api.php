@@ -22,3 +22,5 @@ Route::apiResource('/albums', 'AlbumController');
 Route::group(['prefix'=>'albums'], function(){
 	Route::apiResource('/{album}/audio', 'AudioController');
 });
+
+Route::apiResource('/audios', 'AudioController');

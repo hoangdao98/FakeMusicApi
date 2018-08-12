@@ -13,9 +13,11 @@ class AudioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Album $album)
+    // public function index(Album $album)
+    public function index()
     {
-        return $album->audios;
+        return Audio::paginate(10);
+        // return $album->audios;
     }
 
     /**
